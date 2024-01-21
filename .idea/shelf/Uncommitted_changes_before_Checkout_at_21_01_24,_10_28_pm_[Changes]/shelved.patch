@@ -1,0 +1,15 @@
+Index: src/main/java/com/console/insta/Doctor.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.console.insta;\n\npublic class Doctor extends Person {\n    private final String type=\"Doctor\";\n\n}\n
+===================================================================
+diff --git a/src/main/java/com/console/insta/Doctor.java b/src/main/java/com/console/insta/Doctor.java
+--- a/src/main/java/com/console/insta/Doctor.java	
++++ b/src/main/java/com/console/insta/Doctor.java	
+@@ -3,4 +3,4 @@
+ public class Doctor extends Person {
+     private final String type="Doctor";
+ 
+-}
++}
+\ No newline at end of file

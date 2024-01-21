@@ -1,0 +1,898 @@
+Index: ../../../../../../../src/main/java/com/console/insta/service/PatientService.java
+===================================================================
+diff --git a/../../../../../../../src/main/java/com/console/insta/service/PatientService.java b/../../../../../../../src/main/java/com/console/insta/service/PatientService.java
+deleted file mode 100644
+--- a/../../../../../../../src/main/java/com/console/insta/service/PatientService.java	
++++ /dev/null	
+@@ -1,5 +0,0 @@
+-package com.console.insta.service;
+-
+-public class PatientService {
+-    // some service that we want to inject..
+-}
+Index: ../../../../../../../.gitignore
+===================================================================
+diff --git a/../../../../../../../.gitignore b/../../../../../../../.gitignore
+deleted file mode 100644
+--- a/../../../../../../../.gitignore	
++++ /dev/null	
+@@ -1,37 +0,0 @@
+-HELP.md
+-.gradle
+-build/
+-!gradle/wrapper/gradle-wrapper.jar
+-!**/src/main/**/build/
+-!**/src/test/**/build/
+-
+-### STS ###
+-.apt_generated
+-.classpath
+-.factorypath
+-.project
+-.settings
+-.springBeans
+-.sts4-cache
+-bin/
+-!**/src/main/**/bin/
+-!**/src/test/**/bin/
+-
+-### IntelliJ IDEA ###
+-.idea
+-*.iws
+-*.iml
+-*.ipr
+-out/
+-!**/src/main/**/out/
+-!**/src/test/**/out/
+-
+-### NetBeans ###
+-/nbproject/private/
+-/nbbuild/
+-/dist/
+-/nbdist/
+-/.nb-gradle/
+-
+-### VS Code ###
+-.vscode/
+Index: ../../../../../../../src/main/java/com/console/insta/controllers/GameController.java
+===================================================================
+diff --git a/../../../../../../../src/main/java/com/console/insta/controllers/GameController.java b/../../../../../../../src/main/java/com/console/insta/controllers/GameController.java
+deleted file mode 100644
+--- a/../../../../../../../src/main/java/com/console/insta/controllers/GameController.java	
++++ /dev/null	
+@@ -1,27 +0,0 @@
+-package com.console.insta.controllers;
+-
+-import com.console.insta.Games.Game;
+-import com.console.insta.service.GameRunner;
+-import com.console.insta.service.GameSelector;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.http.ResponseEntity;
+-import org.springframework.web.bind.annotation.*;
+-
+-@RestController
+-@RequestMapping("/game")
+-public class GameController {
+-
+-    @Autowired
+-    private GameRunner gameRunner;
+-    @Autowired
+-    private GameSelector gameSelector;
+-
+-    @GetMapping("/{game}")
+-    public Object runGame(@PathVariable String game) {
+-
+-        Game selectedGame = (Game) gameSelector.getSelectedGame(game);
+-        gameRunner.run(selectedGame);
+-        return ResponseEntity.ok("Check the console!");
+-    }
+-}
+-
+Index: ../../../../../../../src/main/java/com/console/insta/Doctor.java
+===================================================================
+diff --git a/../../../../../../../src/main/java/com/console/insta/Doctor.java b/../../../../../../../src/main/java/com/console/insta/Doctor.java
+deleted file mode 100644
+--- a/../../../../../../../src/main/java/com/console/insta/Doctor.java	
++++ /dev/null	
+@@ -1,6 +0,0 @@
+-package com.console.insta;
+-
+-public class Doctor extends Person {
+-    private final String type="Doctor";
+-
+-}
+Index: ../../../../../../../gradle/wrapper/gradle-wrapper.properties
+===================================================================
+diff --git a/../../../../../../../gradle/wrapper/gradle-wrapper.properties b/../../../../../../../gradle/wrapper/gradle-wrapper.properties
+deleted file mode 100644
+--- a/../../../../../../../gradle/wrapper/gradle-wrapper.properties	
++++ /dev/null	
+@@ -1,7 +0,0 @@
+-distributionBase=GRADLE_USER_HOME
+-distributionPath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-8.5-bin.zip
+-networkTimeout=10000
+-validateDistributionUrl=true
+-zipStoreBase=GRADLE_USER_HOME
+-zipStorePath=wrapper/dists
+Index: ../../../../../../../src/main/java/com/console/insta/service/GameSelector.java
+===================================================================
+diff --git a/../../../../../../../src/main/java/com/console/insta/service/GameSelector.java b/../../../../../../../src/main/java/com/console/insta/service/GameSelector.java
+deleted file mode 100644
+--- a/../../../../../../../src/main/java/com/console/insta/service/GameSelector.java	
++++ /dev/null	
+@@ -1,25 +0,0 @@
+-package com.console.insta.service;
+-
+-
+-import com.console.insta.Games.Game;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.context.ApplicationContext;
+-import org.springframework.stereotype.Component;
+-
+-import java.util.Scanner;
+-
+-@Component
+-public class GameSelector{
+-    @Autowired
+-    private ApplicationContext context;
+-
+-    public Object getSelectedGame(String game) {
+-
+-        return switch (game) {
+-            case "pacman" -> context.getBean("pacman");
+-            case "mario" -> context.getBean("mario");
+-            case "templerun" -> context.getBean("templeRun");
+-            default -> context.getBean(Game.class);
+-        };
+-    }
+-}
+Index: ../../../../../../../src/main/java/com/console/insta/service/GameRunner.java
+===================================================================
+diff --git a/../../../../../../../src/main/java/com/console/insta/service/GameRunner.java b/../../../../../../../src/main/java/com/console/insta/service/GameRunner.java
+deleted file mode 100644
+--- a/../../../../../../../src/main/java/com/console/insta/service/GameRunner.java	
++++ /dev/null	
+@@ -1,15 +0,0 @@
+-package com.console.insta.service;
+-
+-import com.console.insta.Games.Game;
+-import org.springframework.stereotype.Component;
+-
+-@Component
+-public class GameRunner {
+-
+-    public void run(Game selectedGame) {
+-        selectedGame.up();
+-        selectedGame.down();
+-        selectedGame.left();
+-        selectedGame.right();
+-    }
+-}
+Index: ../../../../../../../src/test/java/com/console/insta/InstaApplicationTests.java
+===================================================================
+diff --git a/../../../../../../../src/test/java/com/console/insta/InstaApplicationTests.java b/../../../../../../../src/test/java/com/console/insta/InstaApplicationTests.java
+deleted file mode 100644
+--- a/../../../../../../../src/test/java/com/console/insta/InstaApplicationTests.java	
++++ /dev/null	
+@@ -1,13 +0,0 @@
+-package com.console.insta;
+-
+-import org.junit.jupiter.api.Test;
+-import org.springframework.boot.test.context.SpringBootTest;
+-
+-@SpringBootTest
+-class InstaApplicationTests {
+-
+-	@Test
+-	void contextLoads() {
+-	}
+-
+-}
+Index: ../../../../../../../src/main/java/com/console/insta/Games/Game.java
+===================================================================
+diff --git a/../../../../../../../src/main/java/com/console/insta/Games/Game.java b/../../../../../../../src/main/java/com/console/insta/Games/Game.java
+deleted file mode 100644
+--- a/../../../../../../../src/main/java/com/console/insta/Games/Game.java	
++++ /dev/null	
+@@ -1,8 +0,0 @@
+-package com.console.insta.Games;
+-
+-public interface Game {
+-    void up();
+-    void down();
+-    void right();
+-    void left();
+-}
+Index: ../../../../../../../src/main/java/com/console/insta/InstaApplication.java
+===================================================================
+diff --git a/../../../../../../../src/main/java/com/console/insta/InstaApplication.java b/../../../../../../../src/main/java/com/console/insta/InstaApplication.java
+deleted file mode 100644
+--- a/../../../../../../../src/main/java/com/console/insta/InstaApplication.java	
++++ /dev/null	
+@@ -1,14 +0,0 @@
+-package com.console.insta;
+-
+-import org.springframework.boot.SpringApplication;
+-import org.springframework.boot.autoconfigure.SpringBootApplication;
+-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+-
+-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+-public class InstaApplication {
+-
+-	public static void main(String[] args) {
+-		SpringApplication.run(InstaApplication.class, args);
+-	}
+-
+-}
+Index: ../../../../../../../src/main/java/com/console/insta/Games/Mario.java
+===================================================================
+diff --git a/../../../../../../../src/main/java/com/console/insta/Games/Mario.java b/../../../../../../../src/main/java/com/console/insta/Games/Mario.java
+deleted file mode 100644
+--- a/../../../../../../../src/main/java/com/console/insta/Games/Mario.java	
++++ /dev/null	
+@@ -1,26 +0,0 @@
+-package com.console.insta.Games;
+-
+-import org.springframework.stereotype.Component;
+-
+-@Component("mario")
+-public class Mario implements  Game{
+-    @Override
+-    public void up() {
+-        System.out.println("Jump");
+-    }
+-
+-    @Override
+-    public void down() {
+-        System.out.println("Crouch");
+-    }
+-
+-    @Override
+-    public void right() {
+-
+-    }
+-
+-    @Override
+-    public void left() {
+-
+-    }
+-}
+Index: ../../../../../../../src/main/java/com/console/insta/Patient.java
+===================================================================
+diff --git a/../../../../../../../src/main/java/com/console/insta/Patient.java b/../../../../../../../src/main/java/com/console/insta/Patient.java
+deleted file mode 100644
+--- a/../../../../../../../src/main/java/com/console/insta/Patient.java	
++++ /dev/null	
+@@ -1,8 +0,0 @@
+-package com.console.insta;
+-
+-
+-public class Patient extends Person {
+-    private final String type="Patient";
+-
+-
+-}
+Index: ../../../../../../../src/main/java/com/console/insta/Games/TempleRun.java
+===================================================================
+diff --git a/../../../../../../../src/main/java/com/console/insta/Games/TempleRun.java b/../../../../../../../src/main/java/com/console/insta/Games/TempleRun.java
+deleted file mode 100644
+--- a/../../../../../../../src/main/java/com/console/insta/Games/TempleRun.java	
++++ /dev/null	
+@@ -1,29 +0,0 @@
+-package com.console.insta.Games;
+-
+-import org.springframework.context.annotation.Primary;
+-import org.springframework.stereotype.Component;
+-
+-@Component("templeRun")
+-@Primary
+-public class TempleRun implements Game {
+-
+-    @Override
+-    public void up() {
+-        System.out.println("Jump");
+-    }
+-
+-    @Override
+-    public void down() {
+-        System.out.println("Crouch");
+-    }
+-
+-    @Override
+-    public void right() {
+-        System.out.println("Move Right");
+-    }
+-
+-    @Override
+-    public void left() {
+-        System.out.println("Move Left");
+-    }
+-}
+Index: ../../../../../../../src/main/java/com/console/insta/Games/Pacman.java
+===================================================================
+diff --git a/../../../../../../../src/main/java/com/console/insta/Games/Pacman.java b/../../../../../../../src/main/java/com/console/insta/Games/Pacman.java
+deleted file mode 100644
+--- a/../../../../../../../src/main/java/com/console/insta/Games/Pacman.java	
++++ /dev/null	
+@@ -1,26 +0,0 @@
+-package com.console.insta.Games;
+-
+-import org.springframework.stereotype.Component;
+-
+-@Component("pacman")
+-public class Pacman implements  Game{
+-    @Override
+-    public void up() {
+-        System.out.println("Move Up!");
+-    }
+-
+-    @Override
+-    public void down() {
+-        System.out.println("Move Down!");
+-    }
+-
+-    @Override
+-    public void right() {
+-        System.out.println("Move Right!");
+-    }
+-
+-    @Override
+-    public void left() {
+-        System.out.println("Move Left!");
+-    }
+-}
+Index: ../../../../../../../src/main/java/com/console/insta/Person.java
+===================================================================
+diff --git a/../../../../../../../src/main/java/com/console/insta/Person.java b/../../../../../../../src/main/java/com/console/insta/Person.java
+deleted file mode 100644
+--- a/../../../../../../../src/main/java/com/console/insta/Person.java	
++++ /dev/null	
+@@ -1,30 +0,0 @@
+-package com.console.insta;
+-public abstract class Person {
+-    private String id;
+-    private String name;
+-    private int age;
+-
+-    public String getId() {
+-        return id;
+-    }
+-
+-    public void setId(String id) {
+-        this.id = id;
+-    }
+-
+-    public String getName() {
+-        return name;
+-    }
+-
+-    public void setName(String name) {
+-        this.name = name;
+-    }
+-
+-    public int getAge() {
+-        return age;
+-    }
+-
+-    public void setAge(int age) {
+-        this.age = age;
+-    }
+-}
+Index: ../../../../../../../settings.gradle
+===================================================================
+diff --git a/../../../../../../../settings.gradle b/../../../../../../../settings.gradle
+deleted file mode 100644
+--- a/../../../../../../../settings.gradle	
++++ /dev/null	
+@@ -1,1 +0,0 @@
+-rootProject.name = 'insta'
+Index: ../../../../../../../build.gradle
+===================================================================
+diff --git a/../../../../../../../build.gradle b/../../../../../../../build.gradle
+deleted file mode 100644
+--- a/../../../../../../../build.gradle	
++++ /dev/null	
+@@ -1,27 +0,0 @@
+-plugins {
+-	id 'java'
+-	id 'org.springframework.boot' version '3.2.1'
+-	id 'io.spring.dependency-management' version '1.1.4'
+-}
+-
+-group = 'com.console'
+-version = '0.0.1-SNAPSHOT'
+-
+-java {
+-	sourceCompatibility = '17'
+-}
+-
+-repositories {
+-	mavenCentral()
+-}
+-
+-dependencies {
+-	implementation 'org.springframework.boot:spring-boot-starter'
+-	implementation 'org.springframework.boot:spring-boot-starter-web'
+-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+-}
+-
+-tasks.named('test') {
+-	useJUnitPlatform()
+-}
+Index: ../../../../../../../src/main/java/com/console/insta/controllers/PatientController.java
+===================================================================
+diff --git a/../../../../../../../src/main/java/com/console/insta/controllers/PatientController.java b/../../../../../../../src/main/java/com/console/insta/controllers/PatientController.java
+deleted file mode 100644
+--- a/../../../../../../../src/main/java/com/console/insta/controllers/PatientController.java	
++++ /dev/null	
+@@ -1,45 +0,0 @@
+-package com.console.insta.controllers;
+-
+-import com.console.insta.Patient;
+-import com.console.insta.service.PatientService;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.http.HttpStatus;
+-import org.springframework.http.ResponseEntity;
+-import org.springframework.web.bind.annotation.*;
+-
+-import java.util.HashMap;
+-import java.util.Map;
+-
+-@RestController
+-@RequestMapping("/patient")
+-public class PatientController {
+-
+-    public void setDoctorService(PatientService patientService) {
+-    }
+-
+-    private static final Map<String, Patient> patientMap = new HashMap<>();
+-
+-    @GetMapping("/{id}")
+-    public ResponseEntity<Object> getPatient(@PathVariable String id) {
+-        Patient patient = patientMap.get(id);
+-
+-        if (patient != null) {
+-            return ResponseEntity.ok(patient);
+-        } else {
+-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Patient with ID " + id + " not found");
+-        }
+-    }
+-
+-    @PostMapping
+-    public ResponseEntity<String> addPatient(@RequestBody Patient patient) {
+-        String nextId = patient.getId();
+-        patientMap.put(nextId, patient);
+-        return ResponseEntity.ok(nextId);
+-    }
+-
+-    @DeleteMapping("/{id}")
+-    public ResponseEntity<String> deletePatient(@PathVariable String id) {
+-        patientMap.remove(id);
+-        return ResponseEntity.ok("Patient with Id:" + id + "is deleted from the records!");
+-    }
+-}
+Index: ../../../../../../../src/main/java/com/console/insta/controllers/DoctorController.java
+===================================================================
+diff --git a/../../../../../../../src/main/java/com/console/insta/controllers/DoctorController.java b/../../../../../../../src/main/java/com/console/insta/controllers/DoctorController.java
+deleted file mode 100644
+--- a/../../../../../../../src/main/java/com/console/insta/controllers/DoctorController.java	
++++ /dev/null	
+@@ -1,40 +0,0 @@
+-package com.console.insta.controllers;
+-
+-import com.console.insta.Doctor;
+-import org.springframework.http.HttpStatus;
+-import org.springframework.http.ResponseEntity;
+-import org.springframework.web.bind.annotation.*;
+-
+-import java.util.HashMap;
+-import java.util.Map;
+-
+-@RestController
+-@RequestMapping("/doctor")
+-public class DoctorController {
+-
+-    private static final Map<String, Doctor> doctorMap = new HashMap<>();
+-
+-    @GetMapping("/{id}")
+-    public ResponseEntity<Object> getDoctor(@PathVariable String id) {
+-        Doctor doctor = doctorMap.get(id);
+-
+-        if (doctor != null) {
+-            return ResponseEntity.ok(doctor);
+-        } else {
+-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Doctor with ID " + id + " not found");
+-        }
+-    }
+-
+-    @PostMapping
+-    public ResponseEntity<String> addDoctor(@RequestBody Doctor doctor) {
+-        String doctorId = doctor.getId();
+-        doctorMap.put(doctorId, doctor);
+-        return ResponseEntity.ok(doctorId);
+-    }
+-
+-    @DeleteMapping("/{id}")
+-    public ResponseEntity<String> deleteDoctor(@PathVariable String id) {
+-        doctorMap.remove(id);
+-        return ResponseEntity.ok("Doctor with Id:" + id + "is deleted from the records!");
+-    }
+-}
+Index: ../../../../../../../.idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../../../../../../.idea/misc.xml b/../../../../../../../.idea/misc.xml
+new file mode 100644
+--- /dev/null	
++++ b/../../../../../../../.idea/misc.xml	
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ExternalStorageConfigurationManager" enabled="true" />
++  <component name="FrameworkDetectionExcludesConfiguration">
++    <file type="web" url="file://$PROJECT_DIR$" />
++  </component>
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="corretto-21" project-jdk-type="JavaSDK" />
++</project>
+\ No newline at end of file
+Index: .idea/modules.xml
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+new file mode 100644
+--- /dev/null	
++++ b/.idea/modules.xml	
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectModuleManager">
++    <modules>
++      <module fileurl="file://$PROJECT_DIR$/.idea/insta.iml" filepath="$PROJECT_DIR$/.idea/insta.iml" />
++    </modules>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/insta.iml
+===================================================================
+diff --git a/.idea/insta.iml b/.idea/insta.iml
+new file mode 100644
+--- /dev/null	
++++ b/.idea/insta.iml	
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4">
++  <component name="NewModuleRootManager" inherit-compiler-output="true">
++    <exclude-output />
++    <content url="file://$MODULE_DIR$" />
++    <orderEntry type="inheritedJdk" />
++    <orderEntry type="sourceFolder" forTests="false" />
++  </component>
++</module>
+\ No newline at end of file
+Index: ../../../../../../../.gradle/buildOutputCleanup/cache.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/../../../../../../../.gradle/buildOutputCleanup/cache.properties b/../../../../../../../.gradle/buildOutputCleanup/cache.properties
+new file mode 100644
+--- /dev/null	
++++ b/../../../../../../../.gradle/buildOutputCleanup/cache.properties	
+@@ -0,0 +1,2 @@
++#Tue Jan 16 22:58:49 IST 2024
++gradle.version=8.5
+Index: ../../../../../../../.idea/jarRepositories.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../../../../../../.idea/jarRepositories.xml b/../../../../../../../.idea/jarRepositories.xml
+new file mode 100644
+--- /dev/null	
++++ b/../../../../../../../.idea/jarRepositories.xml	
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RemoteRepositoriesConfiguration">
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Maven Central repository" />
++      <option name="url" value="https://repo1.maven.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="jboss.community" />
++      <option name="name" value="JBoss Community repository" />
++      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="MavenRepo" />
++      <option name="name" value="MavenRepo" />
++      <option name="url" value="https://repo.maven.apache.org/maven2/" />
++    </remote-repository>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/.gitignore
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+new file mode 100644
+--- /dev/null	
++++ b/.idea/.gitignore	
+@@ -0,0 +1,8 @@
++# Default ignored files
++/shelf/
++/workspace.xml
++# Editor-based HTTP Client requests
++/httpRequests/
++# Datasource local storage ignored files
++/dataSources/
++/dataSources.local.xml
+Index: ../../../../../../../.idea/uiDesigner.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../../../../../../.idea/uiDesigner.xml b/../../../../../../../.idea/uiDesigner.xml
+new file mode 100644
+--- /dev/null	
++++ b/../../../../../../../.idea/uiDesigner.xml	
+@@ -0,0 +1,124 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="Palette2">
++    <group name="Swing">
++      <item class="com.intellij.uiDesigner.HSpacer" tooltip-text="Horizontal Spacer" icon="/com/intellij/uiDesigner/icons/hspacer.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="1" hsize-policy="6" anchor="0" fill="1" />
++      </item>
++      <item class="com.intellij.uiDesigner.VSpacer" tooltip-text="Vertical Spacer" icon="/com/intellij/uiDesigner/icons/vspacer.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="1" anchor="0" fill="2" />
++      </item>
++      <item class="javax.swing.JPanel" icon="/com/intellij/uiDesigner/icons/panel.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JScrollPane" icon="/com/intellij/uiDesigner/icons/scrollPane.svg" removable="false" auto-create-binding="false" can-attach-label="true">
++        <default-constraints vsize-policy="7" hsize-policy="7" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JButton" icon="/com/intellij/uiDesigner/icons/button.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="0" fill="1" />
++        <initial-values>
++          <property name="text" value="Button" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JRadioButton" icon="/com/intellij/uiDesigner/icons/radioButton.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="RadioButton" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JCheckBox" icon="/com/intellij/uiDesigner/icons/checkBox.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="CheckBox" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JLabel" icon="/com/intellij/uiDesigner/icons/label.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="0" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="Label" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JTextField" icon="/com/intellij/uiDesigner/icons/textField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JPasswordField" icon="/com/intellij/uiDesigner/icons/passwordField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JFormattedTextField" icon="/com/intellij/uiDesigner/icons/formattedTextField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTextArea" icon="/com/intellij/uiDesigner/icons/textArea.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTextPane" icon="/com/intellij/uiDesigner/icons/textPane.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JEditorPane" icon="/com/intellij/uiDesigner/icons/editorPane.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JComboBox" icon="/com/intellij/uiDesigner/icons/comboBox.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="2" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JTable" icon="/com/intellij/uiDesigner/icons/table.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JList" icon="/com/intellij/uiDesigner/icons/list.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="2" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTree" icon="/com/intellij/uiDesigner/icons/tree.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTabbedPane" icon="/com/intellij/uiDesigner/icons/tabbedPane.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++          <preferred-size width="200" height="200" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JSplitPane" icon="/com/intellij/uiDesigner/icons/splitPane.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++          <preferred-size width="200" height="200" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JSpinner" icon="/com/intellij/uiDesigner/icons/spinner.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JSlider" icon="/com/intellij/uiDesigner/icons/slider.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JSeparator" icon="/com/intellij/uiDesigner/icons/separator.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JProgressBar" icon="/com/intellij/uiDesigner/icons/progressbar.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1" />
++      </item>
++      <item class="javax.swing.JToolBar" icon="/com/intellij/uiDesigner/icons/toolbar.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1">
++          <preferred-size width="-1" height="20" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JToolBar$Separator" icon="/com/intellij/uiDesigner/icons/toolbarSeparator.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="0" anchor="0" fill="1" />
++      </item>
++      <item class="javax.swing.JScrollBar" icon="/com/intellij/uiDesigner/icons/scrollbar.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2" />
++      </item>
++    </group>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/vcs.xml
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	
++++ b/.idea/vcs.xml	
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$/../../../../../../.." vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: ../../../../../../../.idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../../../../../../.idea/gradle.xml b/../../../../../../../.idea/gradle.xml
+new file mode 100644
+--- /dev/null	
++++ b/../../../../../../../.idea/gradle.xml	
+@@ -0,0 +1,16 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="GradleMigrationSettings" migrationVersion="1" />
++  <component name="GradleSettings">
++    <option name="linkedExternalProjectsSettings">
++      <GradleProjectSettings>
++        <option name="externalProjectPath" value="$PROJECT_DIR$" />
++        <option name="modules">
++          <set>
++            <option value="$PROJECT_DIR$" />
++          </set>
++        </option>
++      </GradleProjectSettings>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/misc.xml
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+new file mode 100644
+--- /dev/null	
++++ b/.idea/misc.xml	
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="corretto-21" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/out" />
++  </component>
++</project>
+\ No newline at end of file
+Index: ../../../../../../../.idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../../../../../../.idea/.gitignore b/../../../../../../../.idea/.gitignore
+new file mode 100644
+--- /dev/null	
++++ b/../../../../../../../.idea/.gitignore	
+@@ -0,0 +1,8 @@
++# Default ignored files
++/shelf/
++/workspace.xml
++# Editor-based HTTP Client requests
++/httpRequests/
++# Datasource local storage ignored files
++/dataSources/
++/dataSources.local.xml
+Index: ../../../../../../../HELP.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../../../../../../HELP.md b/../../../../../../../HELP.md
+new file mode 100644
+--- /dev/null	
++++ b/../../../../../../../HELP.md	
+@@ -0,0 +1,14 @@
++# Getting Started
++
++### Reference Documentation
++For further reference, please consider the following sections:
++
++* [Official Gradle documentation](https://docs.gradle.org)
++* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.2.1/gradle-plugin/reference/html/)
++* [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.2.1/gradle-plugin/reference/html/#build-image)
++
++### Additional Links
++These additional references should also help you:
++
++* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
++
+Index: ../../../../../../../.idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../../../../../../.idea/compiler.xml b/../../../../../../../.idea/compiler.xml
+new file mode 100644
+--- /dev/null	
++++ b/../../../../../../../.idea/compiler.xml	
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <bytecodeTargetLevel target="17" />
++  </component>
++</project>
+\ No newline at end of file
+Index: ../../../../../../resources/main/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/../../../../../../resources/main/application.properties b/../../../../../../resources/main/application.properties
+new file mode 100644
+--- /dev/null	
++++ b/../../../../../../resources/main/application.properties	
+@@ -0,0 +1,1 @@
++
+diff --git a/../../../../../../../.gradle/8.5/dependencies-accessors/gc.properties b/../../../../../../../.gradle/8.5/dependencies-accessors/gc.properties
+new file mode 100644
+diff --git a/../../../../../../../.gradle/vcs-1/gc.properties b/../../../../../../../.gradle/vcs-1/gc.properties
+new file mode 100644
+diff --git a/../../../../../../../.gradle/8.5/gc.properties b/../../../../../../../.gradle/8.5/gc.properties
+new file mode 100644
