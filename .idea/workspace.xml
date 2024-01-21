@@ -76,7 +76,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.InstaApplication.executor": "Run",
-    "git-widget-placeholder": "feature1",
+    "git-widget-placeholder": "conflict-branch",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/abhinavpandey/Downloads/insta",
     "node.js.detected.package.eslint": "true",
@@ -127,7 +127,7 @@
       <workItem from="1705855609543" duration="294000" />
       <workItem from="1705856163265" duration="1283000" />
       <workItem from="1705858692676" duration="299000" />
-      <workItem from="1705859074025" duration="450000" />
+      <workItem from="1705859074025" duration="635000" />
     </task>
     <servers />
   </component>
