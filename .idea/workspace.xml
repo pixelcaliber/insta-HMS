@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f40060c0-6c45-41d5-adf7-1ecc7abc1601" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/console/insta/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/console/insta/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/console/insta/controllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/console/insta/controllers/GameController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +25,12 @@
       <state>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="insta" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
@@ -40,7 +48,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature-branch" />
+        <entry key="$PROJECT_DIR$" value="conflict-branch" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -127,7 +135,7 @@
       <workItem from="1705855609543" duration="294000" />
       <workItem from="1705856163265" duration="1283000" />
       <workItem from="1705858692676" duration="299000" />
-      <workItem from="1705859074025" duration="450000" />
+      <workItem from="1706079328488" duration="576000" />
     </task>
     <servers />
   </component>

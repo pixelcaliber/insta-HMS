@@ -2,8 +2,6 @@ package com.console.insta;
 public abstract class Person {
     private String id;
     private String name;
-    private int age;
-
     public String getId() {
         return id;
     }

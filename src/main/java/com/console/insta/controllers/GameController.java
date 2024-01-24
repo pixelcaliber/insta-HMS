@@ -16,12 +16,14 @@ public class GameController {
     @Autowired
     private GameSelector gameSelector;
 
+
+
     @GetMapping("/{game}")
     public Object runGame(@PathVariable String game) {
 
         Game selectedGame = (Game) gameSelector.getSelectedGame(game);
         gameRunner.run(selectedGame);
-        return ResponseEntity.ok("Check the console!");
+        return ResponseEntity.ok("Game is activated! Check the console...");
     }
 }
 
