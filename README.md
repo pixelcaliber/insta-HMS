@@ -1,4 +1,4 @@
-## Insta - cloud based hospital mamagement system
+## Insta - cloud based hospital management system
 
 Manage patients, doctors and everything with insta
 
